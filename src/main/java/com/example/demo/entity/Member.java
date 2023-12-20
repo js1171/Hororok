@@ -7,35 +7,47 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name="member")
+@EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
 
+    @Id
+    @Column(name="userId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long userId;
+
+    @Column(name="id")
     private String id;
-    private String password;
+
+    @Column(name="pw")
+    private String pw;
+
     private String name;
     private String nickname;
-
     private LocalDate birth;
     private char gender;
 
     @CreatedDate
-    @Column(name = "createdAt", updatable = false)
+    @Column(name = "createdAt", updatable = false, nullable = false)
     private LocalDate createdAt;
 
     @LastModifiedDate
     @Column(name = "updateAt")
     private LocalDate updatedAt;
 
-    public Member(String id, String password, String name, String nickname, LocalDate birth, char gender) {
+    public Member(String id, String pw, String name, String nickname, LocalDate birth, char gender) {
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.gender = gender;
     }
-
 }
