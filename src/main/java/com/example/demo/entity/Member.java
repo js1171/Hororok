@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="member")
@@ -35,12 +36,11 @@ public class Member {
     private char gender;
 
     @CreatedDate
-    @Column(name = "createdAt", updatable = false, nullable = false)
-    private LocalDate createdAt;
+    @Column(updatable = false, nullable = false)
+    private LocalDateTime created_at;
 
     @LastModifiedDate
-    @Column(name = "updateAt")
-    private LocalDate updatedAt;
+    private LocalDateTime updated_at;
 
     public Member(String id, String pw, String name, String nickname, LocalDate birth, char gender) {
         this.id = id;
