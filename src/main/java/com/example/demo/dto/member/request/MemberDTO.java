@@ -4,7 +4,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class MemberCreateRequest {
+public class MemberDTO {
 
     private String id;
     private String password;

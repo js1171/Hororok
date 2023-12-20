@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.member.request.MemberCreateRequest;
+import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.service.member.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public void saveMember(@RequestBody MemberCreateRequest request) {
+    public void saveMember(@RequestBody MemberDTO request) {
         memberService.saveMember(request);
     }
 }
