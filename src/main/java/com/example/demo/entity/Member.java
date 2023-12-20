@@ -1,10 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,19 +12,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="member")
 @EntityListeners(AuditingEntityListener.class)
-@Getter @Setter
+@Getter @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Member {
 
     @Id
-    @Column(name="userId")
+    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column(name="id")
     private String id;
-
-    @Column(name="pw")
     private String pw;
 
     private String name;
@@ -36,11 +31,12 @@ public class Member {
     private char gender;
 
     @CreatedDate
-    @Column(updatable = false, nullable = false)
-    private LocalDateTime created_at;
+    @Column(name="created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updated_at;
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
 
     public Member(String id, String pw, String name, String nickname, LocalDate birth, char gender) {
         this.id = id;
@@ -50,4 +46,5 @@ public class Member {
         this.birth = birth;
         this.gender = gender;
     }
+
 }

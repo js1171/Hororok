@@ -17,11 +17,19 @@ public class MemberService {
 
     @Transactional
     public void saveMember(MemberDTO request) {
+        // 이미 존재하는 아이디인지 확인
+        if (memberRepository.existsById(request.getId())) {
+            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        }
+
+        // 존재하지 않는 아이디라면 회원가입 진행
         Member member = convertToEntity(request);
         memberRepository.save(member);
     }
+
     private Member convertToEntity(MemberDTO request) {
-        return new Member(request.getId(), request.getPassword(), request.getName(),
+        return new Member(request.getId(), request.getPw(), request.getName(),
                 request.getNickname(), request.getBirth(), request.getGender());
     }
+
 }

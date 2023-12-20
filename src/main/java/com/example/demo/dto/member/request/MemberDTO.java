@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class MemberDTO {
 
     private String id;
-    private String password;
+    private String pw;
     private String name;
     private String nickname;
     private LocalDate birth;
