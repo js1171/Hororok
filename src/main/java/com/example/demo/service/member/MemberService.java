@@ -3,6 +3,8 @@ package com.example.demo.service.member;
 import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
+    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
+    @Autowired
+    private HttpSession httpSession;
     @Transactional
     public void saveMember(MemberDTO request) {
         // 이미 존재하는 아이디인지 확인
@@ -27,8 +31,18 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    public void loginMember(Member member) {
+        httpSession.setAttribute("userId", member.getUserId());
+    }
+
+    public void logoutMember() {
+        httpSession.removeAttribute("userId");
+    }
+
     private Member convertToEntity(MemberDTO request) {
         return new Member(request.getId(), request.getPassword(), request.getName(),
                 request.getNickname(), request.getBirth(), request.getGender());
     }
+
+
 }
