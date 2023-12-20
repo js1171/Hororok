@@ -28,8 +28,7 @@ public class MemberService {
     }
 
     private Member convertToEntity(MemberDTO request) {
-        return new Member(request.getId(), request.getPw(), request.getName(),
+        return new Member(request.getId(), request.getPassword(), request.getName(),
                 request.getNickname(), request.getBirth(), request.getGender());
     }
-
 }
