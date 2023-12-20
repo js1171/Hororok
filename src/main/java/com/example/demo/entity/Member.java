@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "member")
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
 public class Member {
 
@@ -53,4 +50,7 @@ public class Member {
         this.gender = gender;
     }
 
+    public Member() {
+
+    }
 }
