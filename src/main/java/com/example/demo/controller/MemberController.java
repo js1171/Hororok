@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
@@ -69,7 +70,11 @@ public class MemberController {
         return memberService.getMembers();
     }
 
-
+    @ResponseBody
+    @PatchMapping("/users/{id}")
+    public void updateMember(@PathVariable("id") String id, @RequestBody MemberUpdateDTO dto) {
+        memberService.updateMember(id, dto);
+    }
 
 
 
