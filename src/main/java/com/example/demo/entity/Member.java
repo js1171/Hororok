@@ -53,4 +53,12 @@ public class Member {
     public Member() {
 
     }
+
+    public void updateMember(String password, String name, String nickname, LocalDate birth, Character gender) {
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.gender = gender;
+    }
 }

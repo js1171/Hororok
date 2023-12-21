@@ -1,6 +1,7 @@
 package com.example.demo.service.member;
 
 import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
@@ -58,6 +59,15 @@ public class MemberService {
     @Transactional
     public List<MemberResponse> getMembers() {
         return memberRepository.findAll().stream().map(MemberResponse::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateMember(String id, MemberUpdateDTO dto) {
+        Member member = memberRepository.findFirstById(id)
+                .orElseThrow(IllegalArgumentException::new);
+
+        member.updateMember(dto.getPassword(), dto.getName(), dto.getNickname(), dto.getBirth(), dto.getGender());
+        memberRepository.save(member);
     }
 
 }
