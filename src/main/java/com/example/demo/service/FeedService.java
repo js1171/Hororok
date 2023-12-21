@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,14 @@ public class FeedService {
         Feed saveFeed = feedRepository.save(feed);
 
         return new FeedResponseDTO(saveFeed);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FeedResponseDTO> getFeeds() {
+        List<Feed> feeds = feedRepository.findAll();
+        return feeds.stream()
+                .map(feed -> new FeedResponseDTO(feed.getContents()))
+                .collect(Collectors.toList());
     }
 
     @Transactional

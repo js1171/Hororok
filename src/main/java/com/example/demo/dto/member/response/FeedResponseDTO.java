@@ -15,4 +15,8 @@ public class FeedResponseDTO {
     private LocalDateTime updatedAt;
     public FeedResponseDTO(Feed saveFeed) {
     }
+
+    public FeedResponseDTO(String contents) {
+        this.contents = contents;
+    }
 }
