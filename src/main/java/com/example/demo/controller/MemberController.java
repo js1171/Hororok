@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberUpdateDTO;
+import com.example.demo.dto.member.response.MemberResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.member.MemberService;
@@ -10,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 import java.util.Map;
 @Controller
 public class MemberController {
@@ -53,4 +57,31 @@ public class MemberController {
         httpSession.invalidate(); // 세션 무효화 (로그아웃)
         return ResponseEntity.ok("Logout successful");
     }
+
+    @ResponseBody
+    @GetMapping("/users/{id}")
+    public List<MemberResponse> getMember(@PathVariable("id") String id) {
+        return memberService.getMember(id);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
+    }
+
+    @ResponseBody
+    @GetMapping("/users")
+    public List<MemberResponse> getMembers() {
+        return memberService.getMembers();
+    }
+
+    @ResponseBody
+    @PatchMapping("/users/{id}")
+    public void updateMember(@PathVariable("id") String id, @RequestBody MemberUpdateDTO dto) {
+        memberService.updateMember(id, dto);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/users/{id}")
+    public void deleteMember(@PathVariable("id") String id) {
+        memberService.deleteMember(id);
+    }
+
+
+
 }

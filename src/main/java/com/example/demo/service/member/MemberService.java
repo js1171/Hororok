@@ -1,12 +1,18 @@
 package com.example.demo.service.member;
 
 import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberUpdateDTO;
+import com.example.demo.dto.member.response.MemberResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -19,6 +25,7 @@ public class MemberService {
 
     @Autowired
     private HttpSession httpSession;
+
     @Transactional
     public void saveMember(MemberDTO request) {
         // 이미 존재하는 아이디인지 확인
@@ -44,5 +51,30 @@ public class MemberService {
                 request.getNickname(), request.getBirth(), request.getGender());
     }
 
+    @Transactional
+    public List<MemberResponse> getMember(String id) {
+        return memberRepository.findFirstById(id).stream().map(MemberResponse::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<MemberResponse> getMembers() {
+        return memberRepository.findAll().stream().map(MemberResponse::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateMember(String id, MemberUpdateDTO dto) {
+        Member member = memberRepository.findFirstById(id)
+                .orElseThrow(IllegalArgumentException::new);
+
+        member.updateMember(dto.getPassword(), dto.getName(), dto.getNickname(), dto.getBirth(), dto.getGender());
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void deleteMember(String id) {
+        Member member = memberRepository.findFirstById(id)
+                .orElseThrow(IllegalArgumentException::new);
+        memberRepository.delete(member);
+    }
 
 }
