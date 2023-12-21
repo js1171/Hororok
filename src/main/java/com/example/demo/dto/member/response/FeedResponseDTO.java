@@ -15,7 +15,12 @@ public class FeedResponseDTO {
     private LocalDateTime updatedAt;
     public FeedResponseDTO(Feed saveFeed) {
     }
-
+    public FeedResponseDTO(Long feedId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.feedId = feedId;
+        this.contents = contents;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
     public FeedResponseDTO(String contents) {
         this.contents = contents;
     }
