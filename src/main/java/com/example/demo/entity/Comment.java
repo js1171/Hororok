@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Comment {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable=false, updatable=false)
+    private Member member;
+
     @Id
     @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
