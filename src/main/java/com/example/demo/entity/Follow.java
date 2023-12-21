@@ -12,6 +12,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 public class Follow {
 
+    @ManyToOne
+    private Member member;
+
     @Id
     @Column(name = "follow_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +23,10 @@ public class Follow {
     private Long fromUserId;
     private Long toUserId;
 
-    public Follow(Long fromUserId, Long toUserId) {
+    public Follow(Member member, Long fromUserId, Long toUserId) {
+        this.member = member;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
     }
-
 
 }
