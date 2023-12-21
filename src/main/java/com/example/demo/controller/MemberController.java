@@ -59,9 +59,9 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/users/{id}")
-    public List<MemberResponse> getMember(@PathVariable("id") String id) {
-        return memberService.getMember(id);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
+    @GetMapping("/users/{userid}")
+    public List<MemberResponse> getMember(@PathVariable("userid") Long userId) {
+        return memberService.getMember(userId);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
     }
 
     @ResponseBody
@@ -71,15 +71,15 @@ public class MemberController {
     }
 
     @ResponseBody
-    @PatchMapping("/users/{id}")
-    public void updateMember(@PathVariable("id") String id, @RequestBody MemberUpdateDTO dto) {
-        memberService.updateMember(id, dto);
+    @PatchMapping("/users/{userId}")
+    public void updateMember(@PathVariable("userId") Long userId, @RequestBody MemberUpdateDTO dto) {
+        memberService.updateMember(userId, dto);
     }
 
     @ResponseBody
-    @DeleteMapping("/users/{id}")
-    public void deleteMember(@PathVariable("id") String id) {
-        memberService.deleteMember(id);
+    @DeleteMapping("/users/{userId}")
+    public void deleteMember(@PathVariable("userId") Long userId) {
+        memberService.deleteMember(userId);
     }
 
 
