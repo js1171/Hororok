@@ -4,7 +4,7 @@ import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponse;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
-import com.example.demo.service.member.MemberService;
+import com.example.demo.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
