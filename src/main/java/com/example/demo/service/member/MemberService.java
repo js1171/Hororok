@@ -70,4 +70,11 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional
+    public void deleteMember(String id) {
+        Member member = memberRepository.findFirstById(id)
+                .orElseThrow(IllegalArgumentException::new);
+        memberRepository.delete(member);
+    }
+
 }
