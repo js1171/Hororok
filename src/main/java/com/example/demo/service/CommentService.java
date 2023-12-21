@@ -2,11 +2,15 @@ package com.example.demo.service;
 
 import com.example.demo.dto.member.request.CommentDTO;
 import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.response.CommentResponseDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.repository.CommentRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -24,6 +28,13 @@ public class CommentService {
     public void createComment(CommentDTO dto, Long feedId, Long userId) {
         Comment comment = new Comment(dto, feedId, userId);
         commentRepository.save(comment);
+    }
+
+    public List<CommentResponseDTO> getComments(Long feedId) {
+        List<Comment> comments = commentRepository.findByFeedId(feedId);
+        return comments.stream().map(comment ->
+                new CommentResponseDTO(comment.getCommentId(), comment.getFeedId(), comment.getUserId(), comment.getContents(), comment.getCreatedAt(), comment.getUpdatedAt()))
+                .collect(Collectors.toList());
     }
 
 

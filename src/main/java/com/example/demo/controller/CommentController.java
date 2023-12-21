@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.member.request.CommentDTO;
+import com.example.demo.dto.member.response.CommentResponseDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.CommentService;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -38,6 +41,11 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
+    @ResponseBody
+    @GetMapping("/feeds/{feedId}/comments")
+    public List<CommentResponseDTO> getComments(@PathVariable("feedId") Long feedId) {
+        return commentService.getComments(feedId);
+    }
 
 
 }
