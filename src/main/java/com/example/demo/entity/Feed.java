@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +35,9 @@ public class Feed {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "feed", fetch=FetchType.LAZY)
+    private List<FeedLike> likesCnt = new ArrayList<>();
 
     public Feed(FeedRequestDTO feedRequestDTO, Member member) {
         this.contents = feedRequestDTO.getContents();
