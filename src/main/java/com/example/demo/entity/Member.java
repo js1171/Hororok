@@ -9,12 +9,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
 public class Member {
+
+    @OneToMany (mappedBy = "user_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> follows = new ArrayList<>();
 
     @Id
     @Column(name = "user_id")
