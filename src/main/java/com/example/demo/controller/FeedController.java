@@ -38,6 +38,12 @@ public class FeedController {
         return feedService.getFeeds();
     }
 
+    @GetMapping("/feeds/{feedId}")
+    public ResponseEntity<FeedResponseDTO> getFeed(@PathVariable("feedId") Long feedId){
+        FeedResponseDTO feed = feedService.getFeed(feedId);
+        return ResponseEntity.ok(feed);
+    }
+
     @DeleteMapping("/feeds/{feedId}")
     public ResponseEntity<Void> deleteFeed(@PathVariable("feedId") Long feedId, HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
