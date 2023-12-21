@@ -50,6 +50,13 @@ public class FeedService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public FeedResponseDTO getFeed(Long feedId) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
+        return new FeedResponseDTO(feed.getContents());
+    }
+
     @Transactional
     public void deleteFeed(Long feedId, Long userId) {
         Feed feed = feedRepository.findById(feedId)
