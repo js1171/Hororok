@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,6 +56,28 @@ public class FeedService {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
         return new FeedResponseDTO(feed.getContents());
+    }
+
+    @Transactional
+    public FeedResponseDTO updateFeed(Long feedId, FeedRequestDTO feedRequestDTO, Long userId) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
+
+        // 게시글의 작성자와 현재 로그인한 사용자가 동일한지 확인
+        if (!userId.equals(feed.getMember().getUserId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "게시글 수정 권한이 없습니다.");
+        }
+
+        // 게시글 내용 업데이트
+        if (feedRequestDTO != null && feedRequestDTO.getContents() != null) {
+            feed.setContents(feedRequestDTO.getContents());
+            feed.setUpdatedAt(LocalDateTime.now());
+        }
+
+        // 업데이트된 게시글 저장
+        Feed updatedFeed = feedRepository.save(feed);
+
+        return new FeedResponseDTO(updatedFeed);
     }
 
     @Transactional
