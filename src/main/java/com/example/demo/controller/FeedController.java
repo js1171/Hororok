@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class FeedController {
     private final FeedService feedService;
 
@@ -29,6 +31,11 @@ public class FeedController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다.");
         }
         return ResponseEntity.ok(feedService.createFeed(requestDTO, httpSession));
+    }
+
+    @GetMapping("/feeds")
+    public List<FeedResponseDTO> getFeeds(){
+        return feedService.getFeeds();
     }
 
     @DeleteMapping("/feeds/{feedId}")
