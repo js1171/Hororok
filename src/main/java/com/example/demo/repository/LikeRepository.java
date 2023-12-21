@@ -8,4 +8,3 @@ import java.util.Optional;
 public interface LikeRepository extends JpaRepository<FeedLike, Long> {
     Optional<FeedLike> findByMemberUserIdAndFeedFeedId(Long userId, Long feedId);
 }
-가
