@@ -7,16 +7,17 @@ import com.example.demo.entity.Member;
 import com.example.demo.repository.FeedRepository;
 import com.example.demo.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FeedService {
     private final FeedRepository feedRepository;
-
-    public FeedService(FeedRepository feedRepository) {
-        this.feedRepository = feedRepository;
-    }
 
     @Autowired
     private MemberRepository memberRepository;
@@ -35,4 +36,6 @@ public class FeedService {
 
         return new FeedResponseDTO(saveFeed);
     }
+
+
 }
