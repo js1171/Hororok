@@ -36,4 +36,12 @@ public class LikeService {
         FeedLike like = new FeedLike(member, feed);
         likeRepository.save(like);
     }
+
+    @Transactional
+    public void unlikeFeed(Long userId, Long feedId) {
+        FeedLike like = likeRepository.findByMemberUserIdAndFeedFeedId(userId, feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "좋아요를 찾을 수 없습니다."));
+
+        likeRepository.delete(like);
+    }
 }
