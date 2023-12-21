@@ -40,4 +40,11 @@ public class Feed {
         this.createdAt = LocalDateTime.now();
     }
 
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
