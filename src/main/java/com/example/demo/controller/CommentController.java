@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.member.request.CommentDTO;
 import com.example.demo.dto.member.response.CommentResponseDTO;
-import com.example.demo.entity.Comment;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.CommentService;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +44,17 @@ public class CommentController {
     @GetMapping("/feeds/{feedId}/comments")
     public List<CommentResponseDTO> getComments(@PathVariable("feedId") Long feedId) {
         return commentService.getComments(feedId);
+    }
+
+    @ResponseBody
+    @PatchMapping("/feeds/comments/{commentId}")
+    public ResponseEntity<String> updateComments(@PathVariable("commentId") Long commentId, @RequestBody CommentDTO dto, HttpSession httpSession) {
+        Long userId = (Long) httpSession.getAttribute("userId");
+        if(userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
+        }
+        commentService.updateComment(commentId, userId, dto);
+        return ResponseEntity.noContent().build();
     }
 
 

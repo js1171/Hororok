@@ -37,5 +37,14 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    public void updateComment(Long commentId, Long userId, CommentDTO dto) {
+        Comment comment = commentRepository.findByCommentId(commentId)
+                .orElseThrow(IllegalArgumentException::new);
+        comment.updateComment(dto.getContents());
+        commentRepository.save(comment);
+
+
+    }
+
 
 }
