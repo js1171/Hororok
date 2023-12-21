@@ -1,4 +1,4 @@
-package com.example.demo.service.member;
+package com.example.demo.service;
 
 import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
