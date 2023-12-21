@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import com.example.demo.dto.member.request.FeedRequestDTO;
@@ -36,6 +37,26 @@ public class FeedController {
     @GetMapping("/feeds")
     public List<FeedResponseDTO> getFeeds(){
         return feedService.getFeeds();
+    }
+
+    @GetMapping("/feeds/{feedId}")
+    public ResponseEntity<FeedResponseDTO> getFeed(@PathVariable("feedId") Long feedId){
+        FeedResponseDTO feed = feedService.getFeed(feedId);
+        return ResponseEntity.ok(feed);
+    }
+
+    @PutMapping("/feeds/{feedId}")
+    public ResponseEntity<FeedResponseDTO> updateFeed(
+            @PathVariable("feedId") Long feedId,
+            @RequestBody FeedRequestDTO requestDTO,
+            HttpSession httpSession) {
+        Long userId = (Long) httpSession.getAttribute("userId");
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다.");
+        }
+
+        FeedResponseDTO updatedFeed = feedService.updateFeed(feedId, requestDTO, userId);
+        return ResponseEntity.ok(updatedFeed);
     }
 
     @DeleteMapping("/feeds/{feedId}")
