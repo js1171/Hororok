@@ -5,14 +5,11 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class MemberDTO {
+public class MemberUpdateDTO {
 
-    private Long userId;
-    private String id;
     private String password;
     private String name;
     private String nickname;
     private LocalDate birth;
     private char gender;
-
 }
