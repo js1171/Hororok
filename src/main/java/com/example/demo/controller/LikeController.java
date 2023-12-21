@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
+@RequestMapping("/feeds/{feedId}/likes")
 @RequiredArgsConstructor
 public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/feeds/{feedId}/likes")
+    @PostMapping
     public ResponseEntity<Void> likeFeed(@PathVariable("feedId") Long feedId, HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
         if (userId == null) {
@@ -22,6 +23,18 @@ public class LikeController {
         }
 
         likeService.likeFeed(userId, feedId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> unlikeFeed(@PathVariable("feedId") Long feedId, HttpSession httpSession) {
+        Long userId = (Long) httpSession.getAttribute("userId");
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다.");
+        }
+
+        likeService.unlikeFeed(userId, feedId);
 
         return ResponseEntity.noContent().build();
     }
