@@ -50,13 +50,6 @@ public class Comment {
         this.contents = dto.getContents();
     }
 
-    public Comment (Long commentId, Long feedId, Long userId, CommentDTO dto) {
-        this.commentId=commentId;
-        this.feedId = feedId;
-        this.userId = userId;
-        this.contents = dto.getContents();
-    }
-
     public void updateComment(String contents) {
         this.contents = contents;
     }
