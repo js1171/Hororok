@@ -76,6 +76,12 @@ public class MemberController {
         memberService.updateMember(id, dto);
     }
 
+    @ResponseBody
+    @DeleteMapping("/users/{id}")
+    public void deleteMember(@PathVariable("id") String id) {
+        memberService.deleteMember(id);
+    }
+
 
 
 }
