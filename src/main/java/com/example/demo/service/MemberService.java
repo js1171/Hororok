@@ -51,8 +51,8 @@ public class MemberService {
     }
 
     @Transactional
-    public List<MemberResponse> getMember(String id) {
-        return memberRepository.findFirstById(id).stream().map(MemberResponse::new).collect(Collectors.toList());
+    public List<MemberResponse> getMember(Long userId) {
+        return memberRepository.findFirstByUserId(userId).stream().map(MemberResponse::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -61,8 +61,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(String id, MemberUpdateDTO dto) {
-        Member member = memberRepository.findFirstById(id)
+    public void updateMember(Long userId, MemberUpdateDTO dto) {
+        Member member = memberRepository.findFirstByUserId(userId)
                 .orElseThrow(IllegalArgumentException::new);
 
         member.updateMember(dto.getPassword(), dto.getName(), dto.getNickname(), dto.getBirth(), dto.getGender());
@@ -70,8 +70,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteMember(String id) {
-        Member member = memberRepository.findFirstById(id)
+    public void deleteMember(Long userId) {
+        Member member = memberRepository.findFirstByUserId(userId)
                 .orElseThrow(IllegalArgumentException::new);
         memberRepository.delete(member);
     }
