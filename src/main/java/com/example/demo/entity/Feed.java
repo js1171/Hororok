@@ -39,4 +39,5 @@ public class Feed {
         this.member = member;
         this.createdAt = LocalDateTime.now();
     }
+
 }
