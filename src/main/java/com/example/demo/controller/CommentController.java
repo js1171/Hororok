@@ -57,5 +57,16 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
+    @ResponseBody
+    @DeleteMapping("/feeds/comments/{commentId}")
+    public ResponseEntity<String> deleteComments(@PathVariable("commentId") Long commentId, HttpSession httpSession) {
+        Long userId = (Long) httpSession.getAttribute("userId");
+        if(userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
+        }
+        commentService.deleteComment(commentId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
