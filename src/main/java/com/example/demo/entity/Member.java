@@ -18,9 +18,6 @@ import java.util.List;
 @Getter @Setter
 public class Member {
 
-    @OneToMany (mappedBy = "user_id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Follow> follows = new ArrayList<>();
-
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
