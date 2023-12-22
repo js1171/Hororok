@@ -34,4 +34,23 @@ public class FollowService {
 
         followRepository.save(follow);
     }
+
+    public void unfollow(Long fromUserId, Long toUserId) {
+        Long loggedInUserId = (Long) httpSession.getAttribute("userId");
+        if (loggedInUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다.");
+        }
+
+        if (!loggedInUserId.equals(fromUserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "다른 사용자의 팔로우를 취소할 수 없습니다.");
+        }
+
+        Member fromUser = memberService.findMemberById(fromUserId);
+        Member toUser = memberService.findMemberById(toUserId);
+
+        Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 팔로우 관계를 찾을 수 없습니다."));
+
+        followRepository.delete(follow);
+    }
 }
