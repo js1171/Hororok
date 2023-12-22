@@ -93,7 +93,4 @@ public class MemberController {
         }
         memberService.deleteMember(sessionUserId);
     }
-
-
-
 }
