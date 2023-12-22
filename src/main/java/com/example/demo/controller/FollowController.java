@@ -39,6 +39,14 @@ public class FollowController {
         return ResponseEntity.ok(followers);
     }
 
+
+    @GetMapping("/users/{userId}/following")
+    public ResponseEntity<List<MemberDTO>> getFollowing(@PathVariable("userId") Long userId) {
+        List<MemberDTO> following = followService.getFollowing(userId);
+        return ResponseEntity.ok(following);
+    }
+
+
     @DeleteMapping("/users/{userId}/follows/{toUserId}")
     public ResponseEntity<Void> unfollowUser(
             @PathVariable("userId") Long userId,
