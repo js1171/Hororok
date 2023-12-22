@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Follow;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.FollowRepository;
@@ -69,12 +70,12 @@ public class FollowService {
     }
 
     @Transactional
-    public List<MemberDTO> getFollowers(Long userId) {
+    public List<MemberResponseDTO> getFollowers(Long userId) {
         Member user = memberService.findMemberById(userId);
         List<Follow> followerRelations = followRepository.findByToUser(user)
                 .orElse(Collections.emptyList());
         return followerRelations.stream()
-                .map(follow -> convertToMemberDTO(follow.getFromUser()))
+                .map(follow -> new MemberResponseDTO(follow.getFromUser()))
                 .collect(Collectors.toList());
     }
 

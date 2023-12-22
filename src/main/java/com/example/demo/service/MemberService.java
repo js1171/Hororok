@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
-import com.example.demo.dto.member.response.MemberResponse;
+import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
@@ -51,13 +51,13 @@ public class MemberService {
     }
 
     @Transactional
-    public List<MemberResponse> getMember(Long userId) {
-        return memberRepository.findFirstByUserId(userId).stream().map(MemberResponse::new).collect(Collectors.toList());
+    public List<MemberResponseDTO> getMember(Long userId) {
+        return memberRepository.findFirstByUserId(userId).stream().map(MemberResponseDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
-    public List<MemberResponse> getMembers() {
-        return memberRepository.findAll().stream().map(MemberResponse::new).collect(Collectors.toList());
+    public List<MemberResponseDTO> getMembers() {
+        return memberRepository.findAll().stream().map(MemberResponseDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
