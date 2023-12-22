@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.example.demo.dto.member.request.CommentDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,4 +59,5 @@ public class Comment {
     public void updateComment(String contents) {
         this.contents = contents;
     }
+
 }
