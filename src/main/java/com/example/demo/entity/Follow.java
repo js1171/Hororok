@@ -17,12 +17,16 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
 
-    private Long fromUserId;
-    private Long toUserId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Member fromUser;
 
-    public Follow(Long fromUserId, Long toUserId) {
-        this.fromUserId = fromUserId;
-        this.toUserId = toUserId;
+    @ManyToOne
+    @JoinColumn(name = "to_user_id", nullable = false)
+    private Member toUser;
+
+    public Follow(Member fromUser, Member toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
     }
-
 }
