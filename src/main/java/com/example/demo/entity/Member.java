@@ -34,13 +34,18 @@ public class Member {
     private LocalDate birth;
     private char gender;
 
-
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Feed> feedList = new ArrayList<>();
 
 
     public Member(String id, String password, String name, String nickname, LocalDate birth, char gender) {
@@ -62,5 +67,13 @@ public class Member {
         this.nickname = nickname;
         this.birth = birth;
         this.gender = gender;
+    }
+
+    public int returnCommentCnt(List<Comment> commentList) {
+        return commentList.size();
+    }
+
+    public int returnFeedCnt(List<Feed> feedList) {
+        return feedList.size();
     }
 }
