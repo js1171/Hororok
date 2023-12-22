@@ -76,4 +76,9 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
+    @Transactional(readOnly = true)
+    public Member findMemberById(Long userId) {
+        return memberRepository.findFirstByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    }
 }

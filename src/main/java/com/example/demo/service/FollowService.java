@@ -1,16 +1,37 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Follow;
+import com.example.demo.entity.Member;
 import com.example.demo.repository.FollowRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@RequiredArgsConstructor
 public class FollowService {
 
     private final FollowRepository followRepository;
+    private final MemberService memberService;
+    private final HttpSession httpSession;
 
-    @Autowired
-    public FollowService(FollowRepository followRepository) {
-        this.followRepository = followRepository;
+    public void follow(Long fromUserId, Long toUserId) {
+        Long loggedInUserId = (Long) httpSession.getAttribute("userId");
+        if (loggedInUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다.");
+        }
+
+        Member fromUser = memberService.findMemberById(loggedInUserId);
+        Member toUser = memberService.findMemberById(toUserId);
+
+        Follow follow = new Follow(fromUser, toUser);
+
+        if (fromUser.equals(toUser)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User 본인을 follow 할 수 없습니다.");
+        }
+
+        followRepository.save(follow);
     }
 }
