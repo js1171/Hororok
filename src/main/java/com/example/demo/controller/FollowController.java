@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.service.FollowService;
 import jakarta.servlet.http.HttpSession;
@@ -39,13 +40,11 @@ public class FollowController {
         return ResponseEntity.ok(followers);
     }
 
-
     @GetMapping("/users/{userId}/following")
-    public ResponseEntity<List<MemberDTO>> getFollowing(@PathVariable("userId") Long userId) {
-        List<MemberDTO> following = followService.getFollowing(userId);
+    public ResponseEntity<List<MemberResponseDTO>> getFollowing(@PathVariable("userId") Long userId) {
+        List<MemberResponseDTO> following = followService.getFollowing(userId);
         return ResponseEntity.ok(following);
     }
-
 
     @DeleteMapping("/users/{userId}/follows/{toUserId}")
     public ResponseEntity<Void> unfollowUser(
