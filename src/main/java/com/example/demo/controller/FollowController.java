@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,20 @@ public class FollowController {
         }
 
         followService.follow(fromUserId, toUserId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/users/{userId}/follows/{toUserId}")
+    public ResponseEntity<Void> unfollowUser(
+            @PathVariable("userId") Long userId,
+            @PathVariable("toUserId") Long toUserId) {
+        Long fromUserId = (Long) httpSession.getAttribute("userId");
+        if (fromUserId == null || !fromUserId.equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않거나 권한이 없습니다.");
+        }
+
+        followService.unfollow(fromUserId, toUserId);
 
         return ResponseEntity.noContent().build();
     }
