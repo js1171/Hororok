@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
-import com.example.demo.dto.member.response.MemberResponse;
+import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.MemberService;
@@ -60,7 +60,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/users/{userid}")
-    public List<MemberResponse> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
+    public List<MemberResponseDTO> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
         Long sessionUserId = (Long) httpSession.getAttribute("userId");
         if(sessionUserId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
@@ -70,7 +70,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/users")
-    public List<MemberResponse> getMembers() {
+    public List<MemberResponseDTO> getMembers() {
         return memberService.getMembers();
     }
 
