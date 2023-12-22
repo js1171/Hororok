@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FeedResponseDTO {
     private Long feedId;
+    private Long userId;
     private String contents;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -19,8 +20,9 @@ public class FeedResponseDTO {
 
     public FeedResponseDTO(Feed saveFeed) {
     }
-    public FeedResponseDTO(Long feedId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FeedResponseDTO(Long feedId, Long userId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.feedId = feedId;
+        this.userId = userId;
         this.contents = contents;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -31,6 +33,7 @@ public class FeedResponseDTO {
 
     public FeedResponseDTO(Feed feed, int likeCount) {
         this.feedId = feed.getFeedId();
+        this.userId = feed.getUserId();
         this.contents = feed.getContents();
         this.createdAt = feed.getCreatedAt();
         this.updatedAt = feed.getUpdatedAt();
@@ -39,6 +42,7 @@ public class FeedResponseDTO {
 
     public FeedResponseDTO(Feed feed, int likeCount, int commentCount) {
         this.feedId = feed.getFeedId();
+        this.userId = feed.getUserId();
         this.contents = feed.getContents();
         this.createdAt = feed.getCreatedAt();
         this.updatedAt = feed.getUpdatedAt();
