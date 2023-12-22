@@ -14,4 +14,14 @@ public class MemberDTO {
     private LocalDate birth;
     private char gender;
 
+    public MemberDTO(String id, String password, String name, String nickname, LocalDate birth, char gender) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.gender = gender;
+    }
+
+    public MemberDTO() {}
 }

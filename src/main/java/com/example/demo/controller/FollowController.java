@@ -1,21 +1,16 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Follow;
-import com.example.demo.repository.FollowRepository;
+import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.service.FollowService;
 import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,6 +33,13 @@ public class FollowController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/users/{userId}/followers")
+    public ResponseEntity<List<MemberDTO>> getFollowers(@PathVariable("userId") Long userId) {
+        Long loggedInUserId = (Long) httpSession.getAttribute("userId");
+
+        List<MemberDTO> followers = followService.getFollowers(userId);
+        return ResponseEntity.ok(followers);
+    }
     @DeleteMapping("/users/{userId}/follows/{toUserId}")
     public ResponseEntity<Void> unfollowUser(
             @PathVariable("userId") Long userId,
