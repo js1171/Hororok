@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.entity.Follow;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.FollowRepository;
@@ -7,9 +8,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +24,7 @@ public class FollowService {
     private final MemberService memberService;
     private final HttpSession httpSession;
 
+    @Transactional
     public void follow(Long fromUserId, Long toUserId) {
         Long loggedInUserId = (Long) httpSession.getAttribute("userId");
         if (loggedInUserId == null) {
@@ -42,6 +48,7 @@ public class FollowService {
         followRepository.save(follow);
     }
 
+    @Transactional
     public void unfollow(Long fromUserId, Long toUserId) {
         Long loggedInUserId = (Long) httpSession.getAttribute("userId");
         if (loggedInUserId == null) {
@@ -59,5 +66,26 @@ public class FollowService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 팔로우 관계를 찾을 수 없습니다."));
 
         followRepository.delete(follow);
+    }
+
+    @Transactional
+    public List<MemberDTO> getFollowers(Long userId) {
+        Member user = memberService.findMemberById(userId);
+        List<Follow> followerRelations = followRepository.findByToUser(user)
+                .orElse(Collections.emptyList());
+        return followerRelations.stream()
+                .map(follow -> convertToMemberDTO(follow.getFromUser()))
+                .collect(Collectors.toList());
+    }
+
+    private MemberDTO convertToMemberDTO(Member member) {
+        return new MemberDTO(
+                member.getId(),
+                member.getPassword(),
+                member.getName(),
+                member.getNickname(),
+                member.getBirth(),
+                member.getGender()
+        );
     }
 }
