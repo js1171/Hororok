@@ -3,14 +3,11 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.member.request.FeedRequestDTO;
 import com.example.demo.dto.member.response.FeedResponseDTO;
-import com.example.demo.entity.Feed;
 import com.example.demo.service.FeedService;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
