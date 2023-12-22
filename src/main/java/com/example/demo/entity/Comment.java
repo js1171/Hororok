@@ -44,6 +44,10 @@ public class Comment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "feed_id", insertable=false, updatable=false)
+    private Feed feed;
+
     public Comment (CommentDTO dto, Long feedId, Long userId) {
         this.feedId = feedId;
         this.userId = userId;

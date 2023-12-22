@@ -56,7 +56,7 @@ public class FeedService {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
 
-        return new FeedResponseDTO(feed, feed.getLikesCnt().size());
+        return new FeedResponseDTO(feed, feed.getLikesCnt().size(), feed.getCommentList().size());
     }
 
     @Transactional
