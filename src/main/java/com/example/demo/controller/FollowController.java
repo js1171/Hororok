@@ -35,11 +35,16 @@ public class FollowController {
 
     @GetMapping("/users/{userId}/followers")
     public ResponseEntity<List<MemberDTO>> getFollowers(@PathVariable("userId") Long userId) {
-        Long loggedInUserId = (Long) httpSession.getAttribute("userId");
-
         List<MemberDTO> followers = followService.getFollowers(userId);
         return ResponseEntity.ok(followers);
     }
+
+    @GetMapping("/users/{userId}/following")
+    public ResponseEntity<List<MemberDTO>> getFollowing(@PathVariable("userId") Long userId) {
+        List<MemberDTO> following = followService.getFollowing(userId);
+        return ResponseEntity.ok(following);
+    }
+
     @DeleteMapping("/users/{userId}/follows/{toUserId}")
     public ResponseEntity<Void> unfollowUser(
             @PathVariable("userId") Long userId,
