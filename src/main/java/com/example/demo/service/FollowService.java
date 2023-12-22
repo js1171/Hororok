@@ -80,11 +80,12 @@ public class FollowService {
     }
 
     @Transactional
-    public List<MemberDTO> getFollowing(Long userId) {
+    public List<MemberResponseDTO> getFollowing(Long userId) {
         Member user = memberService.findMemberById(userId);
-        List<Follow> followingRelations = followRepository.findByFromUser(user);
+        List<Follow> followingRelations = followRepository.findByFromUser(user)
+                .orElse(Collections.emptyList());
         return followingRelations.stream()
-                .map(follow -> convertToMemberDTO(follow.getToUser()))
+                .map(follow -> new MemberResponseDTO(follow.getToUser()))
                 .collect(Collectors.toList());
     }
 
