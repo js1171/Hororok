@@ -47,6 +47,14 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feedList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<FeedLike> feedLikeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "fromUser", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> fromUserList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "toUser", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> toUserList = new ArrayList<>();
 
     public Member(String id, String password, String name, String nickname, LocalDate birth, char gender) {
         this.id = id;
