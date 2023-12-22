@@ -60,8 +60,12 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/users/{userid}")
-    public List<MemberResponse> getMember(@PathVariable("userid") Long userId) {
-        return memberService.getMember(userId);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
+    public List<MemberResponse> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
+        Long sessionUserId = (Long) httpSession.getAttribute("userId");
+        if(sessionUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
+        }
+        return memberService.getMember(sessionUserId);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
     }
 
     @ResponseBody
@@ -72,14 +76,22 @@ public class MemberController {
 
     @ResponseBody
     @PatchMapping("/users/{userId}")
-    public void updateMember(@PathVariable("userId") Long userId, @RequestBody MemberUpdateDTO dto) {
-        memberService.updateMember(userId, dto);
+    public void updateMember(@PathVariable("userId") Long userId, @RequestBody MemberUpdateDTO dto, HttpSession httpSession) {
+        Long sessionUserId = (Long) httpSession.getAttribute("userId");
+        if(sessionUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
+        }
+        memberService.updateMember(sessionUserId, dto);
     }
 
     @ResponseBody
     @DeleteMapping("/users/{userId}")
-    public void deleteMember(@PathVariable("userId") Long userId) {
-        memberService.deleteMember(userId);
+    public void deleteMember(@PathVariable("userId") Long userId, HttpSession httpSession) {
+        Long sessionUserId = (Long) httpSession.getAttribute("userId");
+        if(sessionUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
+        }
+        memberService.deleteMember(sessionUserId);
     }
 
 
