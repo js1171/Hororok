@@ -79,6 +79,15 @@ public class FollowService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<MemberDTO> getFollowing(Long userId) {
+        Member user = memberService.findMemberById(userId);
+        List<Follow> followingRelations = followRepository.findByFromUser(user);
+        return followingRelations.stream()
+                .map(follow -> convertToMemberDTO(follow.getToUser()))
+                .collect(Collectors.toList());
+    }
+
     private MemberDTO convertToMemberDTO(Member member) {
         return new MemberDTO(
                 member.getId(),
