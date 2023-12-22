@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.service.FollowService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +34,11 @@ public class FollowController {
     }
 
     @GetMapping("/users/{userId}/followers")
-    public ResponseEntity<List<MemberDTO>> getFollowers(@PathVariable("userId") Long userId) {
-        Long loggedInUserId = (Long) httpSession.getAttribute("userId");
-
-        List<MemberDTO> followers = followService.getFollowers(userId);
+    public ResponseEntity<List<MemberResponseDTO>> getFollowers(@PathVariable("userId") Long userId) {
+        List<MemberResponseDTO> followers = followService.getFollowers(userId);
         return ResponseEntity.ok(followers);
     }
+
     @DeleteMapping("/users/{userId}/follows/{toUserId}")
     public ResponseEntity<Void> unfollowUser(
             @PathVariable("userId") Long userId,
