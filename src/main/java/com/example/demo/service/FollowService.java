@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class FollowService {
@@ -25,6 +27,11 @@ public class FollowService {
 
         Member fromUser = memberService.findMemberById(loggedInUserId);
         Member toUser = memberService.findMemberById(toUserId);
+
+        Optional<Follow> existingFollow = followRepository.findByFromUserAndToUser(fromUser, toUser);
+        if (existingFollow.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 해당 유저를 팔로우하고 있습니다.");
+        }
 
         Follow follow = new Follow(fromUser, toUser);
 
