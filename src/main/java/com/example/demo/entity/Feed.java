@@ -39,6 +39,9 @@ public class Feed {
     @OneToMany(mappedBy = "feed", fetch=FetchType.LAZY)
     private List<FeedLike> likesCnt = new ArrayList<>();
 
+    @OneToMany(mappedBy = "feed", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
     public Feed(FeedRequestDTO feedRequestDTO, Member member) {
         this.contents = feedRequestDTO.getContents();
         this.member = member;
