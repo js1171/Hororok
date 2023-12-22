@@ -21,6 +21,9 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feedId;
 
+    @Column(name="user_id", insertable=false, updatable=false)
+    private Long userId;
+
     @Column(name = "contents")
     private String contents;
 
@@ -54,5 +57,9 @@ public class Feed {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }
