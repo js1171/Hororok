@@ -1,6 +1,7 @@
 package com.example.demo.dto.member.response;
 
 import com.example.demo.entity.Feed;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
@@ -12,7 +13,11 @@ public class FeedResponseDTO {
     private Long feedId;
     private Long userId;
     private String contents;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     private int likesCount;
@@ -20,35 +25,8 @@ public class FeedResponseDTO {
 
     public FeedResponseDTO(Feed saveFeed) {
     }
-    public FeedResponseDTO(Long feedId, Long userId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.feedId = feedId;
-        this.userId = userId;
-        this.contents = contents;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-    public FeedResponseDTO(String contents) {
-        this.contents = contents;
-    }
-    public FeedResponseDTO(Long feedId, Long userId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt, int likesCount, int commentCount) {
-        this.feedId = feedId;
-        this.userId = userId;
-        this.contents = contents;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.likesCount = likesCount;
-        this.commentCount = commentCount;
-    }
-    public FeedResponseDTO(Feed feed, int likeCount) {
-        this.feedId = feed.getFeedId();
-        this.userId = feed.getUserId();
-        this.contents = feed.getContents();
-        this.createdAt = feed.getCreatedAt();
-        this.updatedAt = feed.getUpdatedAt();
-        this.likesCount = feed.getLikesCnt().size();
-    }
 
-    public FeedResponseDTO(Feed feed, int likeCount, int commentCount) {
+    public FeedResponseDTO(Feed feed, int likesCount, int commentCount) {
         this.feedId = feed.getFeedId();
         this.userId = feed.getUserId();
         this.contents = feed.getContents();
@@ -58,8 +36,12 @@ public class FeedResponseDTO {
         this.commentCount = feed.getCommentList().size();
     }
 
-    public int getLikesCount() {
-        return likesCount;
+    public Long getFeedId() {
+        return feedId;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
 }
