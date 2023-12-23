@@ -1,4 +1,3 @@
-
 package com.example.demo.controller;
 
 import com.example.demo.dto.member.request.FeedRequestDTO;
@@ -11,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FeedController {
@@ -32,15 +33,24 @@ public class FeedController {
     }
 
     @GetMapping("/feeds")
-    public List<FeedResponseDTO> getFeeds(){
-        return feedService.getFeeds();
+    public ResponseEntity<Map<String, List<FeedResponseDTO>>> getFeeds(){
+        Map<String, List<FeedResponseDTO>> map = new HashMap<>();
+        map.put("feeds", feedService.getFeeds());
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/feeds/{feedId}")
-    public ResponseEntity<FeedResponseDTO> getFeed(@PathVariable("feedId") Long feedId){
-        FeedResponseDTO feed = feedService.getFeed(feedId);
-        return ResponseEntity.ok(feed);
+    public ResponseEntity<Map<String, FeedResponseDTO>> getFeed(@PathVariable("feedId") Long feedId) {
+        FeedResponseDTO feedResponseDTO = feedService.getFeed(feedId);
+        if (feedResponseDTO != null) {
+            Map<String, FeedResponseDTO> response = new HashMap<>();
+            response.put("feed", feedResponseDTO);
+            return ResponseEntity.ok(response);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다.");
+        }
     }
+
 
     @PutMapping("/feeds/{feedId}")
     public ResponseEntity<FeedResponseDTO> updateFeed(
