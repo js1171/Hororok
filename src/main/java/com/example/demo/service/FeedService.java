@@ -46,7 +46,7 @@ public class FeedService {
     public List<FeedResponseDTO> getFeeds() {
         List<Feed> feeds = feedRepository.findAllByOrderByCreatedAtDesc();
         return feeds.stream()
-                .map(feed -> new FeedResponseDTO(feed.getContents()))
+                .map(feed -> new FeedResponseDTO(feed, feed.getLikesCnt().size(), feed.getCommentList().size()))
                 .collect(Collectors.toList());
     }
 
