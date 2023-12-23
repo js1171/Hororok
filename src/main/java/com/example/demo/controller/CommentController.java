@@ -54,6 +54,11 @@ public class CommentController {
 
     @GetMapping("/feeds/{feedId}/comments")
     public ResponseEntity<Map<String, List<CommentResponseDTO>>> getComments(@PathVariable("feedId") Long feedId) {
+        // 존재하는 feedId인지 체크
+        FeedResponseDTO feedResponseDTO = feedService.getFeed(feedId);
+        if (feedResponseDTO == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "존재하지 않는 피드입니다." );
+        }
         List<CommentResponseDTO> list = commentService.getComments(feedId);
         Map<String, List<CommentResponseDTO>> map = new HashMap<>();
         map.put("comments", list);
