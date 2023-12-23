@@ -10,40 +10,34 @@ import java.time.LocalDateTime;
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FeedResponseDTO {
-    private Long feedId;
-    private Long userId;
+    private Long feed_id;
+    private Long user_id;
     private String contents;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    private LocalDateTime created_at;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updated_at;
 
-    private int likesCount;
-    private int commentCount;
+    private int likes_cnt;
+    private int comment_cnt;
     private MemberResponseDTO user;
 
     public FeedResponseDTO(Feed saveFeed) {
     }
 
     public FeedResponseDTO(Feed feed, int likesCount, int commentCount) {
-        this.feedId = feed.getFeedId();
-        this.userId = feed.getUserId();
+        this.feed_id = feed.getFeedId();
+        this.user_id = feed.getUserId();
         this.contents = feed.getContents();
-        this.createdAt = feed.getCreatedAt();
-        this.updatedAt = feed.getUpdatedAt();
-        this.likesCount = feed.getLikesCnt().size();
-        this.commentCount = feed.getCommentList().size();
+        this.created_at = feed.getCreatedAt();
+        this.updated_at = feed.getUpdatedAt();
+        this.likes_cnt = feed.getLikesCnt().size();
+        this.comment_cnt = feed.getCommentList().size();
         this.user = new MemberResponseDTO(feed.getMember());
     }
 
-    public Long getFeedId() {
-        return feedId;
-    }
 
-    public Long getUserId() {
-        return userId;
-    }
 
 }
