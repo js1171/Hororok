@@ -27,4 +27,13 @@ public class MemberResponseDTO {
         this.birth = member.getBirth();
         this.gender = member.getGender();
     }
+
+    public MemberResponseDTO(MemberResponseDTO user) {
+        this.userId = user.getUserId();
+        this.id = user.getId();
+        this.name = user.getName();
+        this.nickname = user.getNickname();
+        this.birth = user.getBirth();
+        this.gender = user.getGender();
+    }
 }

@@ -18,13 +18,15 @@ public class CommentResponseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
+    private MemberResponseDTO user;
 
-    public CommentResponseDTO(Long commentId, Long feedId, Long userId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public CommentResponseDTO(Long commentId, Long feedId, Long userId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt, MemberResponseDTO user) {
         this.commentId = commentId;
         this.feedId = feedId;
         this.userId = userId;
-        this.contents=contents;
+        this.contents = contents;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.user = user;
     }
 }
