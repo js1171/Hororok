@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberRequestDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Member;
@@ -26,7 +26,7 @@ public class MemberService {
     private HttpSession httpSession;
 
     @Transactional
-    public void saveMember(MemberDTO request) {
+    public void saveMember(MemberRequestDTO request) {
         // 이미 존재하는 아이디인지 확인
         if (memberRepository.existsById(request.getId())) {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
@@ -45,8 +45,8 @@ public class MemberService {
         httpSession.removeAttribute("userId");
     }
 
-    private Member convertToEntity(MemberDTO request) {
-        return new Member(request.getId(), request.getPassword(), request.getName(),
+    private Member convertToEntity(MemberRequestDTO request) {
+        return new Member(request.getId(), request.getPw(), request.getName(),
                 request.getNickname(), request.getBirth(), request.getGender());
     }
 
@@ -80,5 +80,12 @@ public class MemberService {
     public Member findMemberById(Long userId) {
         return memberRepository.findFirstByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponseDTO findMemberByUserId(Long userId) {
+        Member member = memberRepository.findFirstByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        return new MemberResponseDTO(member);
     }
 }
