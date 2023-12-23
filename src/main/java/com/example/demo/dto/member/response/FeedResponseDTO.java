@@ -22,6 +22,7 @@ public class FeedResponseDTO {
 
     private int likesCount;
     private int commentCount;
+    private MemberResponseDTO user;
 
     public FeedResponseDTO(Feed saveFeed) {
     }
@@ -34,6 +35,7 @@ public class FeedResponseDTO {
         this.updatedAt = feed.getUpdatedAt();
         this.likesCount = feed.getLikesCnt().size();
         this.commentCount = feed.getCommentList().size();
+        this.user = new MemberResponseDTO(feed.getMember());
     }
 
     public Long getFeedId() {
