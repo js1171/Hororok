@@ -35,17 +35,17 @@ public class FollowController {
     }
 
     @GetMapping("/users/{userId}/followers")
-    public ResponseEntity<List<MemberResponseDTO>> getFollowers(@PathVariable("userId") Long userId) {
+    public ResponseEntity<Map<String, List<MemberResponseDTO>>> getFollowers(@PathVariable("userId") Long userId) {
         List<MemberResponseDTO> followers = followService.getFollowers(userId);
         Map<String, List<MemberResponseDTO>> response = Collections.singletonMap("followers", followers);
-        return ResponseEntity.ok(followers);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users/{userId}/following")
-    public ResponseEntity<List<MemberResponseDTO>> getFollowing(@PathVariable("userId") Long userId) {
+    public ResponseEntity<Map<String, List<MemberResponseDTO>>> getFollowing(@PathVariable("userId") Long userId) {
         List<MemberResponseDTO> following = followService.getFollowing(userId);
         Map<String, List<MemberResponseDTO>> response = Collections.singletonMap("following", following);
-        return ResponseEntity.ok(following);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/users/{userId}/follows/{toUserId}")
