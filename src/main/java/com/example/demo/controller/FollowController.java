@@ -1,19 +1,19 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.service.FollowService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class FollowController {
 
@@ -37,12 +37,14 @@ public class FollowController {
     @GetMapping("/users/{userId}/followers")
     public ResponseEntity<List<MemberResponseDTO>> getFollowers(@PathVariable("userId") Long userId) {
         List<MemberResponseDTO> followers = followService.getFollowers(userId);
+        Map<String, List<MemberResponseDTO>> response = Collections.singletonMap("followers", followers);
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/users/{userId}/following")
     public ResponseEntity<List<MemberResponseDTO>> getFollowing(@PathVariable("userId") Long userId) {
         List<MemberResponseDTO> following = followService.getFollowing(userId);
+        Map<String, List<MemberResponseDTO>> response = Collections.singletonMap("following", following);
         return ResponseEntity.ok(following);
     }
 
