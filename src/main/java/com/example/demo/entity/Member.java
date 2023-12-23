@@ -23,15 +23,22 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "pw")
-    private String password;
+    @Column(name = "pw", nullable = false)
+    private String pw;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String nickname;
+
+    @Column(nullable = false)
     private LocalDate birth;
+
+    @Column(nullable = false)
     private char gender;
 
     @CreatedDate
@@ -56,9 +63,9 @@ public class Member {
     @OneToMany(mappedBy = "toUser", cascade=CascadeType.ALL, orphanRemoval = true)
     private List<Follow> toUserList = new ArrayList<>();
 
-    public Member(String id, String password, String name, String nickname, LocalDate birth, char gender) {
+    public Member(String id, String pw, String name, String nickname, LocalDate birth, char gender) {
         this.id = id;
-        this.password = password;
+        this.pw = pw;
         this.name = name;
         this.nickname = nickname;
         this.birth = birth;
@@ -69,19 +76,12 @@ public class Member {
 
     }
 
-    public void updateMember(String password, String name, String nickname, LocalDate birth, Character gender) {
-        this.password = password;
+    public void updateMember(String pw, String name, String nickname, LocalDate birth, Character gender) {
+        this.pw = pw;
         this.name = name;
         this.nickname = nickname;
         this.birth = birth;
         this.gender = gender;
     }
 
-    public int returnCommentCnt(List<Comment> commentList) {
-        return commentList.size();
-    }
-
-    public int returnFeedCnt(List<Feed> feedList) {
-        return feedList.size();
-    }
 }
