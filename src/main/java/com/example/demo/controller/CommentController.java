@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,12 +44,11 @@ public class CommentController {
     }
 
     @GetMapping("/feeds/{feedId}/comments")
-    public List<CommentResponseDTO> getComments(@PathVariable("feedId") Long feedId) {
-        return commentService.getComments(feedId).stream()
-                .map(comment -> new CommentResponseDTO(comment.getComment_id(), comment.getFeed_id(), comment.getUser_id(),
-                        comment.getContents(), comment.getCreated_at(), comment.getUpdated_at(),
-                        new MemberResponseDTO(comment.getUser())))
-                .collect(Collectors.toList());
+    public ResponseEntity<Map<String, List<CommentResponseDTO>>> getComments(@PathVariable("feedId") Long feedId) {
+        List<CommentResponseDTO> list = commentService.getComments(feedId);
+        Map<String, List<CommentResponseDTO>> map = new HashMap<>();
+        map.put("comments", list);
+        return ResponseEntity.ok(map);
     }
 
     @PatchMapping("/feeds/comments/{commentId}")
