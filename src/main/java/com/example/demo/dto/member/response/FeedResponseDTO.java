@@ -30,7 +30,15 @@ public class FeedResponseDTO {
     public FeedResponseDTO(String contents) {
         this.contents = contents;
     }
-
+    public FeedResponseDTO(Long feedId, Long userId, String contents, LocalDateTime createdAt, LocalDateTime updatedAt, int likesCount, int commentCount) {
+        this.feedId = feedId;
+        this.userId = userId;
+        this.contents = contents;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.likesCount = likesCount;
+        this.commentCount = commentCount;
+    }
     public FeedResponseDTO(Feed feed, int likeCount) {
         this.feedId = feed.getFeedId();
         this.userId = feed.getUserId();
