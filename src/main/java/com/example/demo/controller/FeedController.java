@@ -73,4 +73,12 @@ public class FeedController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/users/{userId}/feeds")
+    public ResponseEntity<Map<String, List<FeedResponseDTO>>> userFeedsList(@PathVariable("userId") Long userId) {
+        Map<String, List<FeedResponseDTO>> response = new HashMap<>();
+        List<FeedResponseDTO> feedList = feedService.userFeedsList(userId);
+        response.put("feeds", feedList);
+        return ResponseEntity.ok(response);
+    }
 }
