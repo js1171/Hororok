@@ -1,5 +1,5 @@
 package com.example.demo.controller;
-import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberRequestDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Member;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Controller
@@ -28,12 +29,15 @@ public class MemberController {
     }
     @ResponseBody
     @PostMapping("/register")
-    public void saveMember(@RequestBody MemberDTO request) {
+    public void saveMember(@RequestBody MemberRequestDTO request) {
+        if(request.getId().isEmpty()|| request.getPw().isEmpty() || request.getName().isEmpty()||request.getNickname().isEmpty() || request.getGender() == '\u0000'){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
         memberService.saveMember(request);
     }
     @PostMapping("/login")
     public ResponseEntity<Long> login(@RequestBody Map<String, String> params) {
-        Member member = memberRepository.findByIdAndPassword(params.get("id"), params.get("password"));
+        Member member = memberRepository.findByIdAndPw(params.get("id"), params.get("pw"));
         if (member != null) {
             memberService.loginMember(member); // 세션에 사용자 정보 저장
             httpSession.setMaxInactiveInterval(5 * 60); // 세션의 최대 유지 시간을 5분으로 설정
@@ -42,14 +46,21 @@ public class MemberController {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/check-login")
-    public ResponseEntity<String> checkLogin() {
+
+    @GetMapping("/users/current")
+    public ResponseEntity<Map<String, Object>> checkLogin() {
         Long userId = (Long) httpSession.getAttribute("userId");
-        if (userId != null) {
-            return ResponseEntity.ok("User is logged in with ID: " + userId);
-        } else {
-            return ResponseEntity.ok("User is not logged in");
+
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
+
+        MemberResponseDTO curUser = memberService.findMemberByUserId(userId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", curUser);
+
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {
