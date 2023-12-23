@@ -60,4 +60,7 @@ public class Comment {
         this.contents = contents;
     }
 
+    public Member getUser() {
+        return member;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.member.request.CommentDTO;
 import com.example.demo.dto.member.response.CommentResponseDTO;
+import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.repository.CommentRepository;
 import jakarta.servlet.http.HttpSession;
@@ -37,7 +38,9 @@ public class CommentService {
     public List<CommentResponseDTO> getComments(Long feedId) {
         List<Comment> comments = commentRepository.findByFeedId(feedId);
         return comments.stream().map(comment ->
-                new CommentResponseDTO(comment.getCommentId(), comment.getFeedId(), comment.getUserId(), comment.getContents(), comment.getCreatedAt(), comment.getUpdatedAt()))
+                        new CommentResponseDTO(comment.getCommentId(), comment.getFeedId(), comment.getUserId(),
+                                comment.getContents(), comment.getCreatedAt(), comment.getUpdatedAt(),
+                                new MemberResponseDTO(comment.getUser())))
                 .collect(Collectors.toList());
     }
 
