@@ -1,12 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.member.request.CommentDTO;
-import com.example.demo.dto.member.request.MemberDTO;
 import com.example.demo.dto.member.response.CommentResponseDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.repository.CommentRepository;
 import jakarta.servlet.http.HttpSession;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
