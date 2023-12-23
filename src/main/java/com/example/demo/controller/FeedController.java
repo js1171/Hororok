@@ -51,8 +51,7 @@ public class FeedController {
         }
     }
 
-
-    @PutMapping("/feeds/{feedId}")
+    @PatchMapping("/feeds/{feedId}")
     public ResponseEntity<FeedResponseDTO> updateFeed(
             @PathVariable("feedId") Long feedId,
             @RequestBody FeedRequestDTO requestDTO,
