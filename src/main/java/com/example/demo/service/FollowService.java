@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.member.request.MemberDTO;
+import com.example.demo.dto.member.request.MemberRequestDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Follow;
 import com.example.demo.entity.Member;
@@ -89,10 +89,10 @@ public class FollowService {
                 .collect(Collectors.toList());
     }
 
-    private MemberDTO convertToMemberDTO(Member member) {
-        return new MemberDTO(
+    private MemberRequestDTO convertToMemberDTO(Member member) {
+        return new MemberRequestDTO(
                 member.getId(),
-                member.getPassword(),
+                member.getPw(),
                 member.getName(),
                 member.getNickname(),
                 member.getBirth(),
