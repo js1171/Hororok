@@ -44,8 +44,8 @@ public class CommentController {
     @GetMapping("/feeds/{feedId}/comments")
     public List<CommentResponseDTO> getComments(@PathVariable("feedId") Long feedId) {
         return commentService.getComments(feedId).stream()
-                .map(comment -> new CommentResponseDTO(comment.getCommentId(), comment.getFeedId(), comment.getUserId(),
-                        comment.getContents(), comment.getCreatedAt(), comment.getUpdatedAt(),
+                .map(comment -> new CommentResponseDTO(comment.getComment_id(), comment.getFeed_id(), comment.getUser_id(),
+                        comment.getContents(), comment.getCreated_at(), comment.getUpdated_at(),
                         new MemberResponseDTO(comment.getUser())))
                 .collect(Collectors.toList());
     }
