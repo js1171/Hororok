@@ -25,7 +25,4 @@ public class MemberRequestDTO {
         this.gender = gender;
     }
 
-    public char getGender() {
-        return gender;
-    }
 }

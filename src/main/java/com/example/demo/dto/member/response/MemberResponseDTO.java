@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor(access= AccessLevel.PROTECTED)
 @Getter
 public class MemberResponseDTO {
-    private Long userId;
+    private Long user_id;
     private String id;
     private String name;
     private String nickname;
@@ -20,7 +20,7 @@ public class MemberResponseDTO {
     private char gender;
 
     public MemberResponseDTO(Member member) {
-        this.userId = member.getUserId();
+        this.user_id = member.getUserId();
         this.id = member.getId();
         this.name = member.getName();
         this.nickname = member.getNickname();
@@ -29,7 +29,7 @@ public class MemberResponseDTO {
     }
 
     public MemberResponseDTO(MemberResponseDTO user) {
-        this.userId = user.getUserId();
+        this.user_id = user.getUser_id();
         this.id = user.getId();
         this.name = user.getName();
         this.nickname = user.getNickname();
