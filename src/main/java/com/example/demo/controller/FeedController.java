@@ -4,7 +4,7 @@ import com.example.demo.dto.member.request.FeedRequestDTO;
 import com.example.demo.dto.member.response.FeedResponseDTO;
 import com.example.demo.service.FeedService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 public class FeedController {
     private final FeedService feedService;
-
-    @Autowired
-    public FeedController(FeedService feedService){
-        this.feedService = feedService;
-    }
 
     @PostMapping("/feeds")
     public ResponseEntity<FeedResponseDTO> createFeed(@RequestBody FeedRequestDTO requestDTO, HttpSession httpSession) {
@@ -34,9 +30,10 @@ public class FeedController {
 
     @GetMapping("/feeds")
     public ResponseEntity<Map<String, List<FeedResponseDTO>>> getFeeds(){
-        Map<String, List<FeedResponseDTO>> map = new HashMap<>();
-        map.put("feeds", feedService.getFeeds());
-        return ResponseEntity.ok(map);
+        Map<String, List<FeedResponseDTO>> response = new HashMap<>();
+        List<FeedResponseDTO> feedList = feedService.getFeeds();
+        response.put("feeds", feedList);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/feeds/{feedId}")
