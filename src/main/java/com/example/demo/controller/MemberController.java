@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+
 import com.example.demo.dto.member.request.MemberRequestDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
@@ -9,14 +10,14 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@Controller
+
+@RestController
 public class MemberController {
     @Autowired
     MemberRepository memberRepository;
@@ -46,6 +47,12 @@ public class MemberController {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        memberService.logoutMember(); // 세션에서 사용자 정보 제거
+        httpSession.invalidate(); // 세션 무효화 (로그아웃)
+        return ResponseEntity.ok("Logout successful");
+    }
 
     @GetMapping("/users/current")
     public ResponseEntity<Map<String, Object>> checkLogin() {
@@ -63,14 +70,6 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
-        memberService.logoutMember(); // 세션에서 사용자 정보 제거
-        httpSession.invalidate(); // 세션 무효화 (로그아웃)
-        return ResponseEntity.ok("Logout successful");
-    }
-
-    @ResponseBody
     @GetMapping("/users/{userid}")
     public ResponseEntity<Map<String, MemberResponseDTO>> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
         Long sessionUserId = (Long) httpSession.getAttribute("userId");
@@ -83,13 +82,26 @@ public class MemberController {
         return ResponseEntity.ok(map);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
     }
 
-    @ResponseBody
     @GetMapping("/users")
     public List<MemberResponseDTO> getMembers() {
         return memberService.getMembers();
     }
 
-    @ResponseBody
+    @GetMapping("/users/{userId}/liked-feeds")
+    public ResponseEntity<Map<String, Object>> getLikedFeeds(@PathVariable("userId") Long userId,  HttpSession httpSession) {
+        Long sessionUserId = (Long) httpSession.getAttribute("userId");
+        if(sessionUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
+        }
+        List<Long> likedFeedIds = memberService.getLikedFeeds(sessionUserId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("liked_feeds", likedFeedIds);
+
+        return ResponseEntity.ok(response);
+    }
+
+
     @PatchMapping("/users/{userId}")
     public void updateMember(@PathVariable("userId") Long userId, @RequestBody MemberUpdateDTO dto, HttpSession httpSession) {
         Long sessionUserId = (Long) httpSession.getAttribute("userId");
@@ -99,7 +111,7 @@ public class MemberController {
         memberService.updateMember(sessionUserId, dto);
     }
 
-    @ResponseBody
+
     @DeleteMapping("/users/{userId}")
     public void deleteMember(@PathVariable("userId") Long userId, HttpSession httpSession) {
         Long sessionUserId = (Long) httpSession.getAttribute("userId");

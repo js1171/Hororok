@@ -3,7 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dto.member.request.MemberRequestDTO;
 import com.example.demo.dto.member.request.MemberUpdateDTO;
 import com.example.demo.dto.member.response.MemberResponseDTO;
+import com.example.demo.entity.FeedLike;
 import com.example.demo.entity.Member;
+import com.example.demo.repository.LikeRepository;
 import com.example.demo.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
-
     private final MemberRepository memberRepository;
+
+    private final LikeRepository likeRepository;
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, LikeRepository likeRepository) {
         this.memberRepository = memberRepository;
+        this.likeRepository = likeRepository;
     }
 
     @Autowired
@@ -53,6 +57,12 @@ public class MemberService {
     @Transactional
     public List<MemberResponseDTO> getMembers() {
         return memberRepository.findAll().stream().map(MemberResponseDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getLikedFeeds(Long userId) {
+        List<FeedLike> likedFeeds = likeRepository.findByMemberUserId(userId);
+        return likedFeeds.stream().map(feedLike -> feedLike.getFeed().getFeedId()).collect(Collectors.toList());
     }
 
     @Transactional
