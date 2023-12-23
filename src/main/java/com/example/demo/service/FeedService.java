@@ -44,9 +44,9 @@ public class FeedService {
 
     @Transactional(readOnly = true)
     public List<FeedResponseDTO> getFeeds() {
-        List<Feed> feeds = feedRepository.findAll();
+        List<Feed> feeds = feedRepository.findAllByOrderByCreatedAtDesc();
         return feeds.stream()
-                .map(feed -> new FeedResponseDTO(feed, feed.getLikesCnt().size()))
+                .map(feed -> new FeedResponseDTO(feed.getContents()))
                 .collect(Collectors.toList());
     }
 
