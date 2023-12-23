@@ -55,11 +55,6 @@ public class MemberService {
     }
 
     @Transactional
-    public List<MemberResponseDTO> getMember(Long userId) {
-        return memberRepository.findFirstByUserId(userId).stream().map(MemberResponseDTO::new).collect(Collectors.toList());
-    }
-
-    @Transactional
     public List<MemberResponseDTO> getMembers() {
         return memberRepository.findAll().stream().map(MemberResponseDTO::new).collect(Collectors.toList());
     }
@@ -75,7 +70,7 @@ public class MemberService {
         Member member = memberRepository.findFirstByUserId(userId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        member.updateMember(dto.getPassword(), dto.getName(), dto.getNickname(), dto.getBirth(), dto.getGender());
+        member.updateMember(dto.getPw(), dto.getName(), dto.getNickname(), dto.getBirth(), dto.getGender());
         memberRepository.save(member);
     }
 

@@ -22,6 +22,7 @@ public class FeedLike {
     @JoinColumn(name = "user_id", nullable = false)
     private Member member;
 
+
     public FeedLike(Member member, Feed feed) {
         this.member = member;
         this.feed = feed;

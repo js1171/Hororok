@@ -71,12 +71,15 @@ public class MemberController {
     }
 
     @GetMapping("/users/{userid}")
-    public List<MemberResponseDTO> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
+    public ResponseEntity<Map<String, MemberResponseDTO>> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
         Long sessionUserId = (Long) httpSession.getAttribute("userId");
         if(sessionUserId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
         }
-        return memberService.getMember(sessionUserId);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
+        Map<String, MemberResponseDTO> map = new HashMap<>();
+        MemberResponseDTO curUser = memberService.findMemberByUserId(userId);
+        map.put("user", curUser);
+        return ResponseEntity.ok(map);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
     }
 
     @GetMapping("/users")

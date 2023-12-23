@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Getter
 public class MemberUpdateDTO {
 
-    private String password;
+    private String pw;
     private String name;
     private String nickname;
     private LocalDate birth;
