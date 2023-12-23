@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.member.request.CommentDTO;
 import com.example.demo.dto.member.response.CommentResponseDTO;
+import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.CommentService;
 import jakarta.servlet.http.HttpSession;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class CommentController {
 
     @Autowired
@@ -28,7 +30,6 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @ResponseBody
     @PostMapping("/feeds/{feedId}/comments")
     public ResponseEntity<String> createComment(@PathVariable("feedId") Long feedId, HttpSession httpSession, @RequestBody CommentDTO dto) {
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -40,13 +41,15 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
-    @ResponseBody
     @GetMapping("/feeds/{feedId}/comments")
     public List<CommentResponseDTO> getComments(@PathVariable("feedId") Long feedId) {
-        return commentService.getComments(feedId);
+        return commentService.getComments(feedId).stream()
+                .map(comment -> new CommentResponseDTO(comment.getCommentId(), comment.getFeedId(), comment.getUserId(),
+                        comment.getContents(), comment.getCreatedAt(), comment.getUpdatedAt(),
+                        new MemberResponseDTO(comment.getUser())))
+                .collect(Collectors.toList());
     }
 
-    @ResponseBody
     @PatchMapping("/feeds/comments/{commentId}")
     public ResponseEntity<String> updateComments(@PathVariable("commentId") Long commentId, @RequestBody CommentDTO dto, HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -57,7 +60,6 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
-    @ResponseBody
     @DeleteMapping("/feeds/comments/{commentId}")
     public ResponseEntity<String> deleteComments(@PathVariable("commentId") Long commentId, HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("userId");
@@ -67,6 +69,4 @@ public class CommentController {
         commentService.deleteComment(commentId, userId);
         return ResponseEntity.noContent().build();
     }
-
-
 }
