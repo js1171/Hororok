@@ -80,8 +80,24 @@ public class MemberService {
     public void updateMember(Long userId, MemberUpdateDTO dto) {
         Member member = memberRepository.findFirstByUserId(userId)
                 .orElseThrow(IllegalArgumentException::new);
+        member.updateMember(member.getPw(), member.getName(), member.getNickname(), member.getBirth(), member.getGender());
 
-        member.updateMember(dto.getPw(), dto.getName(), dto.getNickname(), dto.getBirth(), dto.getGender());
+        if(dto.getPw()!=null) {
+            member.setPw(dto.getPw());
+        }
+        if(dto.getName()!=null) {
+            member.setName(dto.getName());
+        }
+        if(dto.getNickname()!=null) {
+            member.setNickname(dto.getNickname());
+        }
+        if(dto.getBirth()!=null) {
+            member.setBirth(dto.getBirth());
+        }
+        if(dto.getGender()!='\u0000') {
+            member.setGender(dto.getGender());
+        }
+
         memberRepository.save(member);
     }
 
