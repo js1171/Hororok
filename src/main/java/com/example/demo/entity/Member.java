@@ -63,6 +63,7 @@ public class Member {
     @OneToMany(mappedBy = "toUser", cascade=CascadeType.ALL, orphanRemoval = true)
     private List<Follow> toUserList = new ArrayList<>();
 
+
     public Member(String id, String pw, String name, String nickname, LocalDate birth, char gender) {
         this.id = id;
         this.pw = pw;
