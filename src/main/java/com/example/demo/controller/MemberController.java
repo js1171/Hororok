@@ -76,8 +76,10 @@ public class MemberController {
     public ResponseEntity<Map<String, MemberResponseDTO>> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
         Map<String, MemberResponseDTO> map = new HashMap<>();
         MemberResponseDTO curUser = memberService.findMemberByUserId(userId);
-        map.put("user", curUser);
-        return ResponseEntity.ok(map);   // 있는 id이면 리스트, 없는 id이면 빈 리스트 반환
+        int followersCount = memberService.getFollowersCount(userId);
+        int followingCount = memberService.getFollowingCount(userId);
+        map.put("user", new MemberResponseDTO(curUser, followersCount, followingCount));
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/users")
