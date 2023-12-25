@@ -88,15 +88,4 @@ public class FollowService {
                 .map(follow -> new MemberResponseDTO(follow.getToUser()))
                 .collect(Collectors.toList());
     }
-
-    private MemberRequestDTO convertToMemberDTO(Member member) {
-        return new MemberRequestDTO(
-                member.getId(),
-                member.getPw(),
-                member.getName(),
-                member.getNickname(),
-                member.getBirth(),
-                member.getGender()
-        );
-    }
 }
