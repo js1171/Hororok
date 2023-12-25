@@ -76,10 +76,6 @@ public class MemberController {
 
     @GetMapping("/users/{userid}")
     public ResponseEntity<Map<String, MemberResponseDTO>> getMember(@PathVariable("userid") Long userId, HttpSession httpSession) {
-        Long sessionUserId = (Long) httpSession.getAttribute("userId");
-        if(sessionUserId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User가 로그인되어 있지 않습니다." );
-        }
         Map<String, MemberResponseDTO> map = new HashMap<>();
         MemberResponseDTO curUser = memberService.findMemberByUserId(userId);
         map.put("user", curUser);
