@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.service.LikeService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,12 @@ public class LikeController {
 
         likeService.likeFeed(userId, feedId);
 
-        return ResponseEntity.noContent().build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl(CacheControl.noStore().noCache().mustRevalidate());
+        headers.setPragma("no-cache");
+        headers.setExpires(0L);
+
+        return ResponseEntity.noContent().headers(headers).build();
     }
 
     @DeleteMapping
