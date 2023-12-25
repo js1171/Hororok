@@ -1,6 +1,5 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Feed;
 import com.example.demo.entity.FeedLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
