@@ -6,6 +6,8 @@ import com.example.demo.dto.member.response.MemberResponseDTO;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,7 @@ public class MemberController {
     public MemberController(MemberService memberService){
         this.memberService = memberService;
     }
-    @ResponseBody
+
     @PostMapping("/register")
     public void saveMember(@RequestBody MemberRequestDTO request) {
         if(request.getId().isEmpty()|| request.getPw().isEmpty() || request.getName().isEmpty()||request.getNickname().isEmpty() || request.getGender() == '\u0000'){
@@ -36,6 +38,7 @@ public class MemberController {
         }
         memberService.saveMember(request);
     }
+
     @PostMapping("/login")
     public ResponseEntity<Long> login(@RequestBody Map<String, String> params) {
         Member member = memberRepository.findByIdAndPw(params.get("id"), params.get("pw"));
@@ -47,6 +50,7 @@ public class MemberController {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout() {
         memberService.logoutMember(); // 세션에서 사용자 정보 제거
