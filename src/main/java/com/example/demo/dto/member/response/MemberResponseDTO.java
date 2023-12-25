@@ -28,12 +28,4 @@ public class MemberResponseDTO {
         this.gender = member.getGender();
     }
 
-    public MemberResponseDTO(MemberResponseDTO user) {
-        this.user_id = user.getUser_id();
-        this.id = user.getId();
-        this.name = user.getName();
-        this.nickname = user.getNickname();
-        this.birth = user.getBirth();
-        this.gender = user.getGender();
-    }
 }
