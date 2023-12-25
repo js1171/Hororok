@@ -21,7 +21,7 @@ public class FeedResponseDTO {
     private LocalDateTime updated_at;
 
     private int likes_cnt;
-    private int comment_cnt;
+    private int comments_cnt;
     private MemberResponseDTO user;
 
     public FeedResponseDTO(Feed saveFeed) {
@@ -34,7 +34,7 @@ public class FeedResponseDTO {
         this.created_at = feed.getCreatedAt();
         this.updated_at = feed.getUpdatedAt();
         this.likes_cnt = feed.getLikesCnt().size();
-        this.comment_cnt = feed.getCommentList().size();
+        this.comments_cnt = feed.getCommentList().size();
         this.user = new MemberResponseDTO(feed.getMember());
     }
 
