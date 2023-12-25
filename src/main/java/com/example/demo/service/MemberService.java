@@ -64,6 +64,17 @@ public class MemberService {
         List<FeedLike> likedFeeds = likeRepository.findByMemberUserId(userId);
         return likedFeeds.stream().map(feedLike -> feedLike.getFeed().getFeedId()).collect(Collectors.toList());
     }
+    @Transactional(readOnly = true)
+    public int getFollowersCount(Long userId) {
+        Member user = findMemberById(userId);
+        return user.getToUserList().size();
+    }
+
+    @Transactional(readOnly = true)
+    public int getFollowingCount(Long userId) {
+        Member user = findMemberById(userId);
+        return user.getFromUserList().size();
+    }
 
     @Transactional
     public void updateMember(Long userId, MemberUpdateDTO dto) {
@@ -91,6 +102,10 @@ public class MemberService {
     public MemberResponseDTO findMemberByUserId(Long userId) {
         Member member = memberRepository.findFirstByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-        return new MemberResponseDTO(member);
+
+        int followersCount = getFollowersCount(userId);
+        int followingCount = getFollowingCount(userId);
+
+        return new MemberResponseDTO(member, followersCount, followingCount);
     }
 }
