@@ -42,7 +42,7 @@ public class MemberController {
         Member member = memberRepository.findByIdAndPw(params.get("id"), params.get("pw"));
         if (member != null) {
             memberService.loginMember(member); // 세션에 사용자 정보 저장
-            httpSession.setMaxInactiveInterval(5 * 60); // 세션의 최대 유지 시간을 5분으로 설정
+            httpSession.setMaxInactiveInterval(30 * 60); // 세션의 최대 유지 시간을 5분으로 설정
             System.out.println("당신이 찾고자 하는 멤버의 고유 번호는 " + member.getUserId());
             return ResponseEntity.ok(member.getUserId());
         }
